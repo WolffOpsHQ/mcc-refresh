@@ -43,6 +43,40 @@ tr:last-child td{border-bottom:0}
 .tape .d{color:var(--dim);font-size:10.5px}
 footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;border-top:1px solid var(--line);max-width:1280px;margin:0 auto}
 .stack{display:flex;flex-direction:column;gap:14px}
+  /* ---- footer: JPS badge with floor shadow + contact button ---- */
+  .sitefoot { margin-top: 26px; max-width:1280px; margin-left:auto; margin-right:auto; padding:0 20px }
+  .jps-logowrap { position: relative; width: 170px; margin: 30px auto 80px; }
+  .jps-logo-bottom { display: block; width: 170px; height: auto; margin: 0; position: relative; z-index: 1; }
+  .jps-logo-shadow {
+    position: absolute; top: calc(100% - 18px); left: 0; width: 100%;
+    transform-origin: top center;
+    transform: perspective(300px) rotateX(56deg);
+    pointer-events: none;
+    filter: blur(2px) saturate(.9);
+    opacity: .5;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.95), transparent 82%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,.95), transparent 82%);
+  }
+  .jps-logo-shadow img { display: block; width: 100%; height: auto; }
+  .jps-contact-wrap { display: flex; justify-content: flex-end; margin: 0 0 4px; }
+  button.jps-contact {
+    flex: none; width: 72px; height: 72px; min-height: 0; border-radius: 50%;
+    border: 5px solid transparent; padding: 0; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 400; letter-spacing: 0;
+    background:
+      radial-gradient(ellipse 60% 55% at 28% 18%, rgba(255,255,255,.98) 0%, rgba(255,255,255,.30) 38%, rgba(255,255,255,0) 62%) padding-box,
+      radial-gradient(ellipse 70% 60% at 74% 88%, rgba(186,214,226,.50), rgba(186,214,226,0) 60%) padding-box,
+      linear-gradient(165deg, rgba(255,255,255,.92), rgba(228,239,243,.74) 45%, rgba(255,255,255,.48) 80%, rgba(214,230,236,.68)) padding-box,
+      conic-gradient(from 215deg, #8a5f22, #e8c877 14%, #9c742f 28%, #f3e0ab 42%, #b28a44 56%, #ecd298 70%, #8a5f22 84%, #e8c877 94%, #8a5f22) border-box;
+    box-shadow: 0 3px 8px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,252,240,.9), inset 0 -2px 3px rgba(90,60,20,.45);
+  }
+  .jps-contact svg { width: 32px; height: 32px; }
+  @media (max-width: 639px) {
+    button.jps-contact { width: 54px; height: 54px; border-width: 4px; }
+    .jps-contact svg { width: 24px; height: 24px; }
+  }
+  .legend { display: flex; gap: 16px; font-size: .72rem; color: var(--ink-dim); margin-bottom: 10px; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -133,5 +167,17 @@ function area(id,dates,data,color){
 area('c-btc',S2.btc7dates,S2.btc7,'rgb(232,163,61)');
 area('c-fx',S2.fxhist.dates,S2.fxhist.usd,'rgb(56,200,240)');
 </script>
+  <footer class="sitefoot">
+    <div class="jps-logowrap">
+      <img class="jps-logo-bottom" src="/jps-logo.png" alt="JPS">
+      <div class="jps-logo-shadow" aria-hidden="true"><img src="/jps-logo.png" alt=""></div>
+    </div>
+    <div class="jps-contact-wrap">
+      <button type="button" class="jps-contact" id="btnContact" aria-label="Contact" title="Contact">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="jps-goldenv" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d9b877"/><stop offset="100%" stop-color="#8a5f22"/></linearGradient></defs><rect x="3.2" y="5.8" width="17.6" height="12.4" rx="2" fill="none" stroke="url(#jps-goldenv)" stroke-width="1.7"/><path d="M4.2 7.4l7.8 5.8 7.8-5.8" fill="none" stroke="url(#jps-goldenv)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </footer>
+<script>document.getElementById("btnContact").addEventListener("click",()=>{window.location.href="mailto:"+["wolffopshq+contactmc","gmail.com"].join("@")});</script>
 </body>
 </html>
