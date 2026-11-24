@@ -22,24 +22,23 @@
 html,body{overflow-x:hidden}body{background:var(--bg);color:var(--ink);font-family:'Vazirmatn',system-ui,sans-serif;font-size:14px;min-height:100vh;
 background-image:radial-gradient(ellipse at 62% 2%,#14132b 0,transparent 48%),radial-gradient(800px 400px at 10% 110%,rgba(174,203,234,.06),transparent 60%)}
 /* header: 8px spacing grid; logo sizes step by 4:3 (45 / 60 / 80); two clusters, left = identity, right = actions */
-header{--logo:45px;--u:8px;display:grid;grid-template-columns:var(--logo) 1fr auto;grid-template-areas:"logo title title" "date date nav";align-items:center;column-gap:calc(var(--u)*1.5);row-gap:var(--u);padding:calc(var(--u)*2) 20px;border-bottom:1px solid var(--line)}
+header{--logo:60px;--u:8px;display:grid;grid-template-columns:var(--logo) 1fr;grid-template-areas:"logo title" "logo date" "nav nav";align-items:center;column-gap:calc(var(--u)*1.5);row-gap:var(--u);padding:calc(var(--u)*2) 20px;border-bottom:1px solid var(--line)}
 header .hlogo{grid-area:logo;width:var(--logo);height:var(--logo);display:block;border-radius:50%}
 header h1{grid-area:title;font-size:15px;letter-spacing:.2em;font-weight:600;color:var(--gold);line-height:1.2}
 header .stat{grid-area:date;display:flex;align-items:center;gap:var(--u);min-width:0}
 header .dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.35}}
 header time{color:var(--dim);font-size:11px;letter-spacing:.12em;line-height:1.35}
-header time span{display:block;white-space:nowrap}
-@media(min-width:640px){header time span{display:inline}header time span+span:before{content:' '}}
-.hdrmail{grid-area:nav;justify-self:end}
+header time span{display:inline;white-space:nowrap}header time span+span:before{content:" \00b7\00a0"}
+.hdrmail{grid-area:nav;justify-self:stretch}.hdrmail button{flex:1}
 @media(min-width:640px){
-  header{--logo:60px;grid-template-columns:var(--logo) 1fr auto;grid-template-areas:"logo title nav" "logo date nav";column-gap:calc(var(--u)*2);row-gap:4px}
-  header h1{font-size:17px;letter-spacing:.28em}
+  header{--logo:80px;grid-template-columns:var(--logo) 1fr auto;grid-template-areas:"logo title nav" "logo date nav";column-gap:calc(var(--u)*2);row-gap:4px}
+  header h1{font-size:20px;letter-spacing:.26em}.hdrmail{justify-self:end}.hdrmail button{flex:none}
   header time{max-width:none}
 }
 @media(min-width:900px) and (min-height:561px){
-  header{--logo:80px;padding-top:calc(var(--u)*2.5);padding-bottom:calc(var(--u)*2.5)}
-  header h1{font-size:19px}
+  header{--logo:107px;padding-top:calc(var(--u)*2.5);padding-bottom:calc(var(--u)*2.5)}
+  header h1{font-size:26px}header time{font-size:13px}
 }
 /* collapsible sections: 44px header target, chevron, 0fr/1fr height animation */
 .panel h2{min-height:44px;align-items:center;gap:var(--u,8px);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -108,7 +107,7 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
   .hdrmail button:hover,.hdrmail button:focus-visible,.hdrmail button:active{background:linear-gradient(165deg,rgba(255,255,255,.34),rgba(228,239,243,.18) 55%,rgba(255,255,255,.10));
     box-shadow:0 2px 6px rgba(0,0,0,.30),inset 0 1px 1px rgba(255,255,255,.55),inset 0 0 0 1px rgba(228,255,241,.45);outline:0}
   .legend { display: flex; gap: 16px; font-size: .72rem; color: var(--ink-dim); margin-bottom: 10px; flex-wrap: wrap; }
-@media(max-width:639px){header time{font-size:10px;letter-spacing:.04em}.hdrmail button{padding:0 10px;letter-spacing:.06em}}
+@media(max-width:639px){header time{font-size:10.5px;letter-spacing:.06em}.hdrmail button{padding:0 10px;letter-spacing:.06em}}
 </style>
 </head>
 <body>
@@ -222,7 +221,7 @@ document.querySelectorAll("[data-mail]").forEach(function(b){b.addEventListener(
 })();</script>
 <script>(function(){
 var K="mcc.panel.",ch='<svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-var DEF=["theatre-globe","btc-usd","eur-usd","fx","crypto"];
+var DEF=["theatre-globe","theatre-dot-map","btc-usd","eur-usd","fx","crypto"];
 function get(k){try{return localStorage.getItem(K+k)}catch(e){return null}}
 function put(k,v){try{localStorage.setItem(K+k,v)}catch(e){}}
 document.body.classList.add("noanim");
@@ -249,13 +248,13 @@ var el=document.getElementById("g3d"),note=document.getElementById("g3note");
 Promise.all([load("/globe.gl.min.js"),load("/topojson-client.min.js"),fetch("/countries-110m.json").then(function(r){return r.json()})]).then(function(a){
 var topo=a[2],land=topojson.feature(topo,topo.objects.countries).features;
 var G=Globe()(el).width(el.clientWidth).height(340).backgroundColor("rgba(0,0,0,0)")
-.showAtmosphere(true).atmosphereColor("#aecbea").atmosphereAltitude(0.18)
-.polygonsData(land).polygonCapColor(function(){return "rgba(213,182,110,0.10)"}).polygonSideColor(function(){return "rgba(0,0,0,0)"}).polygonStrokeColor(function(){return "rgba(213,182,110,0.55)"}).polygonAltitude(0.006)
+.showAtmosphere(true).atmosphereColor("#aecbea").atmosphereAltitude(0.1)
+.hexPolygonsData(land).hexPolygonResolution(3).hexPolygonMargin(0.42).hexPolygonColor(function(){return "rgba(213,182,110,0.85)"})
 .pointsData(S2.gdelt.map(function(d){return{lat:d.lat,lng:d.lon,r:0.16,a:0.004,c:"#aecbea"}}).concat(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon,r:0.38,a:0.02,c:"#ff6b6b",l:d.c+" "+d.date}})))
 .pointLat("lat").pointLng("lng").pointRadius("r").pointAltitude("a").pointColor("c").pointLabel("l")
 .ringsData(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon}})).ringColor(function(){return function(t){return "rgba(255,107,107,"+(1-t)+")"}}).ringMaxRadius(3.2).ringPropagationSpeed(1.6).ringRepeatPeriod(1800);
-var m=G.globeMaterial();m.color.set("#0b0a14");m.emissive.set("#15122a");m.emissiveIntensity=0.6;
-var c=G.controls();c.autoRotate=true;c.autoRotateSpeed=0.5;c.enableZoom=false;
+var m=G.globeMaterial();m.color.set("#0a0a16");m.emissive.set("#14132b");m.emissiveIntensity=0.7;
+var c=G.controls();c.autoRotate=true;c.autoRotateSpeed=0.5;c.enableZoom=false;G.renderer().domElement.style.touchAction="pan-y";
 G.pointOfView({lat:25,lng:20,altitude:2.3});
 function rs(){if(el.clientWidth)G.width(el.clientWidth)}new ResizeObserver(rs).observe(el);addEventListener("resize",rs);[100,400,1200].forEach(function(t){setTimeout(rs,t)});
 note.textContent=S2.conflicts.length+" CONFLICTS · DRAG TO ROTATE";
