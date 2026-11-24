@@ -108,6 +108,7 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
     box-shadow:0 2px 6px rgba(0,0,0,.30),inset 0 1px 1px rgba(255,255,255,.55),inset 0 0 0 1px rgba(228,255,241,.45);outline:0}
   .legend { display: flex; gap: 16px; font-size: .72rem; color: var(--ink-dim); margin-bottom: 10px; flex-wrap: wrap; }
 @media(max-width:639px){header time{font-size:10.5px;letter-spacing:.06em}.hdrmail button{padding:0 10px;letter-spacing:.06em}}
+#g3card{position:absolute;left:12px;right:12px;bottom:12px;padding:12px 14px;border-radius:12px;background:rgba(17,16,24,.94);border:1px solid #282034;color:#eeeafa;font-size:14px;line-height:1.45;backdrop-filter:blur(8px);z-index:5}#g3card b{font-size:11px;letter-spacing:.16em}#g3card .gt{font-size:17px;color:#d5b66e;margin:2px 0}#g3card .gs{font-size:12px;color:#9a92b8;margin-top:4px}#g3card button{position:absolute;top:4px;right:4px;min-width:44px;min-height:44px;background:transparent;border:0;color:#aecbea;font:600 12px inherit;font-family:inherit;cursor:pointer}
 </style>
 </head>
 <body>
@@ -251,12 +252,25 @@ var G=Globe()(el).width(el.clientWidth).height(340).backgroundColor("rgba(0,0,0,
 .showAtmosphere(true).atmosphereColor("#aecbea").atmosphereAltitude(0.1)
 .hexPolygonsData(land).hexPolygonResolution(3).hexPolygonMargin(0.42).hexPolygonColor(function(){return "rgba(213,182,110,0.85)"})
 .pointsData(S2.gdelt.map(function(d){return{lat:d.lat,lng:d.lon,r:0.16,a:0.004,c:"#aecbea"}}).concat(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon,r:0.38,a:0.02,c:"#ff6b6b",l:d.c+" "+d.date}})))
-.pointLat("lat").pointLng("lng").pointRadius("r").pointAltitude("a").pointColor("c").pointLabel("l")
+.pointLat("lat").pointLng("lng").pointRadius("r").pointAltitude("a").pointColor("c")
 .ringsData(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon}})).ringColor(function(){return function(t){return "rgba(255,107,107,"+(1-t)+")"}}).ringMaxRadius(3.2).ringPropagationSpeed(1.6).ringRepeatPeriod(1800);
 var m=G.globeMaterial();m.color.set("#0a0a16");m.emissive.set("#14132b");m.emissiveIntensity=0.7;
 var c=G.controls();c.autoRotate=true;c.autoRotateSpeed=0.5;c.enableZoom=false;G.renderer().domElement.style.touchAction="pan-y";
 G.pointOfView({lat:25,lng:20,altitude:2.3});
 function rs(){if(el.clientWidth)G.width(el.clientWidth)}new ResizeObserver(rs).observe(el);addEventListener("resize",rs);[100,400,1200].forEach(function(t){setTimeout(rs,t)});
+var M=S2.conflicts.map(function(d){return{t:"c",lat:d.lat,lng:d.lon,d:d}}).concat(S2.gdelt.map(function(d){return{t:"g",lat:d.lat,lng:d.lon,d:d}}));
+var card=document.createElement("div");card.id="g3card";card.setAttribute("role","status");card.style.display="none";el.appendChild(card);
+function esc(x){return String(x).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function hide(){card.style.display="none";c.autoRotate=true}
+function show(m){var h;if(m.t==="c"){var d=m.d;h='<b style="color:#ff6b6b">CONFLICT EVENT</b><div class="gt">'+esc(d.c)+'</div><div>Date: '+esc(d.date)+'</div><div>Reported deaths: '+esc(d.d)+'</div><div class="gs">Source: UCDP georeferenced event data. Location '+m.lat.toFixed(2)+', '+m.lng.toFixed(2)+'</div>'}else{var g=m.d;h='<b style="color:#aecbea">NEWS ACTIVITY (GDELT)</b><div class="gt">Location '+m.lat.toFixed(2)+', '+m.lng.toFixed(2)+'</div><div>'+esc(g.n)+' mentions in the last 24h</div><div>Average tone: '+esc(g.g)+' (negative means hostile or violent coverage)</div><div class="gs">Source: GDELT 2.0 event feed</div>'}
+card.innerHTML=h+'<button type="button" aria-label="Close">Close</button>';card.style.display="block";c.autoRotate=false;card.querySelector("button").onclick=function(e){e.stopPropagation();hide()}}
+var down=null;
+el.addEventListener("pointerdown",function(e){if(card.contains(e.target))return;down={x:e.clientX,y:e.clientY,t:Date.now()}});
+el.addEventListener("pointerup",function(e){if(!down||card.contains(e.target))return;var dx=e.clientX-down.x,dy=e.clientY-down.y,dt=Date.now()-down.t;down=null;if(dx*dx+dy*dy>100||dt>600)return;
+var r=el.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top,cam=G.camera().position,cl=Math.sqrt(cam.x*cam.x+cam.y*cam.y+cam.z*cam.z),best=null,bd=1e9;
+M.forEach(function(m){var p=G.getCoords(m.lat,m.lng,0.01),pl=Math.sqrt(p.x*p.x+p.y*p.y+p.z*p.z);if((cam.x*p.x+cam.y*p.y+cam.z*p.z)/(cl*pl)<G.getGlobeRadius()/cl+0.02)return;var q=G.getScreenCoords(m.lat,m.lng,0.01),dd=Math.hypot(q.x-px,q.y-py)-(m.t==="c"?12:0);if(dd<bd){bd=dd;best=m}});
+if(best&&bd<=44)show(best);else hide()});
+el.addEventListener("pointercancel",function(){down=null});
 note.textContent=S2.conflicts.length+" CONFLICTS · DRAG TO ROTATE";
 }).catch(function(){note.textContent="UNAVAILABLE"})}
 go()
