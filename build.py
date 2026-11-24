@@ -227,6 +227,6 @@ html = open(os.path.join(HERE, "template.html")).read()
 html = html.replace("__SNAPSHOT__", json.dumps(snap, ensure_ascii=False))
 open(os.path.join(dist, "index.html"), "w").write(html)
 open(os.path.join(dist, "snapshot.json"), "w").write(json.dumps(snap, ensure_ascii=False))
-for f in ("lwc.js", "vazirmatn.woff2", "jps-logo.png", "favicon-32.png", "favicon-48.png", "favicon.ico", "apple-touch-icon.png", "icon-192.png", "icon-512.png", "mcc-logo-96.png", "mcc-logo-1024.png", "manifest.webmanifest"):
+for f in ("lwc.js", "vazirmatn.woff2", "jps-logo.png", "favicon-32.png", "favicon-48.png", "favicon.ico", "apple-touch-icon.png", "icon-192.png", "icon-512.png", "mcc-logo-144.png", "mcc-logo-1024.png", "manifest.webmanifest"):
     open(os.path.join(dist, f), "wb").write(open(os.path.join(HERE, "static", f), "rb").read())
 print(f"OK: news={len(snap['news'])} ind={len(snap['independent'])} voices={len(snap['voices'])} gdelt={len(snap['gdelt'])} edgar={len(snap['edgar'])}")
