@@ -11,7 +11,7 @@
 :root{--bg:#06060c;--panel:#111018;--line:#282034;--ink:#eeeafa;--dim:#9a92b8;--gold:#d5b66e;--teal:#aecbea;--green:#3FD68F;--red:#ff6b6b}
 html,body{overflow-x:hidden}body{background:var(--bg);color:var(--ink);font-family:'Vazirmatn',system-ui,sans-serif;font-size:14px;min-height:100vh;
 background-image:radial-gradient(ellipse at 62% 2%,#14132b 0,transparent 48%),radial-gradient(800px 400px at 10% 110%,rgba(174,203,234,.06),transparent 60%)}
-header{display:flex;align-items:baseline;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line)}
+header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line)}
 header h1{font-size:15px;letter-spacing:.28em;font-weight:600;color:var(--gold)}
 header .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.35}}
@@ -58,34 +58,29 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
     mask-image: linear-gradient(to bottom, rgba(0,0,0,.95), transparent 82%);
   }
   .jps-logo-shadow img { display: block; width: 100%; height: auto; }
-  .jps-contact-wrap { display: flex; justify-content: flex-end; align-items: flex-start; gap: 14px; margin: 0 0 4px; }
-  .mailbtn { display:flex; flex-direction:column; align-items:center; gap:5px; }
-  .mailbtn small { font-size:10px; letter-spacing:.08em; color:var(--dim); text-transform:uppercase }
-  .jps-contact .gl { font:600 28px/1 Georgia,"Times New Roman",serif; background:linear-gradient(135deg,#d9b877,#8a5f22); -webkit-background-clip:text; background-clip:text; color:transparent }
-  button.jps-contact {
-    flex: none; width: 72px; height: 72px; min-height: 0; border-radius: 50%;
-    border: 5px solid transparent; padding: 0; cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 400; letter-spacing: 0;
-    background:
-      radial-gradient(ellipse 60% 55% at 28% 18%, rgba(255,255,255,.98) 0%, rgba(255,255,255,.30) 38%, rgba(255,255,255,0) 62%) padding-box,
-      radial-gradient(ellipse 70% 60% at 74% 88%, rgba(186,214,226,.50), rgba(186,214,226,0) 60%) padding-box,
-      linear-gradient(165deg, rgba(255,255,255,.92), rgba(228,239,243,.74) 45%, rgba(255,255,255,.48) 80%, rgba(214,230,236,.68)) padding-box,
-      conic-gradient(from 215deg, #8a5f22, #e8c877 14%, #9c742f 28%, #f3e0ab 42%, #b28a44 56%, #ecd298 70%, #8a5f22 84%, #e8c877 94%, #8a5f22) border-box;
-    box-shadow: 0 3px 8px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,252,240,.9), inset 0 -2px 3px rgba(90,60,20,.45);
-  }
-  .jps-contact svg { width: 32px; height: 32px; }
-  @media (max-width: 639px) {
-    button.jps-contact { width: 54px; height: 54px; border-width: 4px; }
-    .jps-contact svg { width: 24px; height: 24px; }
-    .jps-contact .gl { font-size: 21px; }
-    .jps-contact-wrap { gap: 10px; }
+  /* header mail pill: frosted glass like the shared transport pill */
+  .hdrmail{display:flex;gap:0;padding:4px;border-radius:999px;margin-left:auto;align-self:center;position:relative;
+    border:1px solid rgba(228,255,241,.28);
+    background:linear-gradient(160deg,rgba(228,255,241,.10),rgba(174,203,234,.06) 45%,rgba(117,77,255,.10)),rgba(17,16,24,.55);
+    -webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);
+    box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.10)}
+  .hdrmail button{border:0;background:transparent;color:#e4fff1;font:600 11px/1 inherit;font-family:inherit;letter-spacing:.10em;text-transform:uppercase;
+    min-height:34px;padding:0 14px;border-radius:999px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .hdrmail button:hover,.hdrmail button:focus-visible,.hdrmail button:active{background:linear-gradient(165deg,rgba(255,255,255,.34),rgba(228,239,243,.18) 55%,rgba(255,255,255,.10));
+    box-shadow:0 2px 6px rgba(0,0,0,.30),inset 0 1px 1px rgba(255,255,255,.55),inset 0 0 0 1px rgba(228,255,241,.45);outline:0}
+  header time{margin-left:14px}
+  @media(max-width:639px){
+    header{flex-wrap:wrap;row-gap:10px}
+    header h1{flex:1 1 calc(100% - 24px);letter-spacing:.2em}
+    .hdrmail{margin-left:0}
+    .hdrmail button{padding:0 11px;min-height:32px;font-size:10.5px}
+    header time{margin-left:auto;text-align:right;max-width:120px;line-height:1.3}
   }
   .legend { display: flex; gap: 16px; font-size: .72rem; color: var(--ink-dim); margin-bottom: 10px; flex-wrap: wrap; }
 </style>
 </head>
 <body>
-<header><div class="dot"></div><h1>MISSION COMMAND CENTRE</h1><time id="stamp"></time></header>
+<header><div class="dot"></div><h1>MISSION COMMAND CENTRE</h1><nav class="hdrmail" aria-label="Open mail app"><button type="button" data-mail="native" title="Default mail app">Mail</button><button type="button" data-mail="proton" title="Proton Mail">Proton</button><button type="button" data-mail="gmail" title="Gmail">Gmail</button></nav><time id="stamp"></time></header>
 <div class="ticker"><div class="track" id="ticker"></div></div>
 <main>
   <div class="stack">
@@ -176,11 +171,6 @@ area('c-fx',S2.fxhist.dates,S2.fxhist.usd,'rgb(174,203,234)');
     <div class="jps-logowrap">
       <img class="jps-logo-bottom" src="/jps-logo.png" alt="JPS">
       <div class="jps-logo-shadow" aria-hidden="true"><img src="/jps-logo.png" alt=""></div>
-    </div>
-    <div class="jps-contact-wrap">
-      <div class="mailbtn"><button type="button" class="jps-contact" data-mail="native" aria-label="Open default mail app" title="Default mail app"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="jps-goldenv" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d9b877"/><stop offset="100%" stop-color="#8a5f22"/></linearGradient></defs><rect x="3.2" y="5.8" width="17.6" height="12.4" rx="2" fill="none" stroke="url(#jps-goldenv)" stroke-width="1.7"/><path d="M4.2 7.4l7.8 5.8 7.8-5.8" fill="none" stroke="url(#jps-goldenv)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button><small>Mail</small></div>
-      <div class="mailbtn"><button type="button" class="jps-contact" data-mail="proton" aria-label="Open Proton Mail" title="Proton Mail"><span class="gl" aria-hidden="true">P</span></button><small>Proton</small></div>
-      <div class="mailbtn"><button type="button" class="jps-contact" data-mail="gmail" aria-label="Open Gmail" title="Gmail"><span class="gl" aria-hidden="true">G</span></button><small>Gmail</small></div>
     </div>
   </footer>
 <script>(function(){
