@@ -192,9 +192,9 @@ const S2=JSON.parse(document.getElementById('snap').textContent);
 const opts={layout:{background:{color:'transparent'},textColor:'#9a92b8',attributionLogo:false,fontFamily:'Vazirmatn'},grid:{vertLines:{visible:false},horzLines:{color:'rgba(40,32,52,.35)'}},timeScale:{visible:false},rightPriceScale:{visible:false},crosshair:{visible:false},handleScroll:false,handleScale:false};
 function area(id,dates,data,color){
  const el=document.getElementById(id);
- const ch=LightweightCharts.createChart(el,{...opts,width:el.clientWidth,height:120});
+ const ch=LightweightCharts.createChart(el,{...opts,autoSize:true,height:120});
  const s=ch.addSeries(LightweightCharts.AreaSeries,{lineColor:color,topColor:color.replace(')',',.35)').replace('rgb','rgba'),bottomColor:'rgba(0,0,0,0)',lineWidth:2,priceLineVisible:false});
- s.setData(dates.map((d,i)=>({time:d,value:data[i]})));
+ s.setData(dates.map((d,i)=>({time:d,value:data[i]})));ch.timeScale().fitContent();new ResizeObserver(()=>ch.timeScale().fitContent()).observe(el);
 }
 area('c-btc',S2.btc7dates,S2.btc7,'rgb(213,182,110)');
 area('c-fx',S2.fxhist.dates,S2.fxhist.usd,'rgb(174,203,234)');
