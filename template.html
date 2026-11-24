@@ -116,7 +116,8 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
 <div class="ticker"><div class="track" id="ticker"></div></div>
 <main>
   <div class="stack">
-    <div class="panel"><h2>THEATRE GLOBE <em><span id="ccount"></span> UCDP · <span id="gcount"></span> GDELT 24H</em></h2><canvas id="globe" style="width:100%;display:block"></canvas></div>
+    <div class="panel"><h2>THEATRE GLOBE <em id="g3note">LOADING</em></h2><div id="g3d" style="height:340px;position:relative;touch-action:pan-y"></div></div>
+    <div class="panel"><h2>THEATRE DOT MAP <em><span id="ccount"></span> UCDP · <span id="gcount"></span> GDELT 24H</em></h2><canvas id="globe" style="width:100%;display:block"></canvas></div>
     <div class="panel"><h2>BTC / USD <em>7D</em></h2><div id="c-btc" style="height:120px"></div></div>
     <div class="panel"><h2>EUR / USD <em>30D</em></h2><div id="c-fx" style="height:120px"></div></div>
     <div class="panel"><h2>FX <em id="fxdate"></em></h2><table id="fx"></table></div>
@@ -240,6 +241,26 @@ h.addEventListener("click",function(){set(p.classList.contains("closed"),true)})
 h.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();set(p.classList.contains("closed"),true)}});
 });
 requestAnimationFrame(function(){requestAnimationFrame(function(){document.body.classList.remove("noanim")})});
+})();</script>
+<script>(function(){
+function load(src){return new Promise(function(r,j){var e=document.createElement("script");e.src=src;e.onload=r;e.onerror=j;document.head.appendChild(e)})}
+function go(){
+var el=document.getElementById("g3d"),note=document.getElementById("g3note");
+Promise.all([load("/globe.gl.min.js"),load("/topojson-client.min.js"),fetch("/countries-110m.json").then(function(r){return r.json()})]).then(function(a){
+var topo=a[2],land=topojson.feature(topo,topo.objects.countries).features;
+var G=Globe()(el).width(el.clientWidth).height(340).backgroundColor("rgba(0,0,0,0)")
+.showAtmosphere(true).atmosphereColor("#aecbea").atmosphereAltitude(0.18)
+.polygonsData(land).polygonCapColor(function(){return "rgba(213,182,110,0.10)"}).polygonSideColor(function(){return "rgba(0,0,0,0)"}).polygonStrokeColor(function(){return "rgba(213,182,110,0.55)"}).polygonAltitude(0.006)
+.pointsData(S2.gdelt.map(function(d){return{lat:d.lat,lng:d.lon,r:0.16,a:0.004,c:"#aecbea"}}).concat(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon,r:0.38,a:0.02,c:"#ff6b6b",l:d.c+" "+d.date}})))
+.pointLat("lat").pointLng("lng").pointRadius("r").pointAltitude("a").pointColor("c").pointLabel("l")
+.ringsData(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon}})).ringColor(function(){return function(t){return "rgba(255,107,107,"+(1-t)+")"}}).ringMaxRadius(3.2).ringPropagationSpeed(1.6).ringRepeatPeriod(1800);
+var m=G.globeMaterial();m.color.set("#0b0a14");m.emissive.set("#15122a");m.emissiveIntensity=0.6;
+var c=G.controls();c.autoRotate=true;c.autoRotateSpeed=0.5;c.enableZoom=false;
+G.pointOfView({lat:25,lng:20,altitude:2.3});
+function rs(){if(el.clientWidth)G.width(el.clientWidth)}new ResizeObserver(rs).observe(el);addEventListener("resize",rs);[100,400,1200].forEach(function(t){setTimeout(rs,t)});
+note.textContent=S2.conflicts.length+" CONFLICTS · DRAG TO ROTATE";
+}).catch(function(){note.textContent="UNAVAILABLE"})}
+go()
 })();</script>
 </body>
 </html>
