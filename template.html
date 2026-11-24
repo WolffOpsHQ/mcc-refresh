@@ -8,9 +8,9 @@
 <style>
 @font-face{font-family:'Vazirmatn';src:url('vazirmatn.woff2') format('woff2');font-display:swap}
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0B0E1D;--panel:#161B33;--line:#2A3160;--ink:#DFF7EA;--dim:#6B74A0;--gold:#E8A33D;--teal:#38C8F0;--green:#3FD68F;--red:#F0568A}
+:root{--bg:#06060c;--panel:#111018;--line:#282034;--ink:#eeeafa;--dim:#9a92b8;--gold:#d5b66e;--teal:#aecbea;--green:#3FD68F;--red:#ff6b6b}
 html,body{overflow-x:hidden}body{background:var(--bg);color:var(--ink);font-family:'Vazirmatn',system-ui,sans-serif;font-size:14px;min-height:100vh;
-background-image:radial-gradient(1200px 500px at 70% -10%,rgba(42,49,96,.6),transparent 60%),radial-gradient(800px 400px at 10% 110%,rgba(56,200,240,.12),transparent 60%)}
+background-image:radial-gradient(ellipse at 62% 2%,#14132b 0,transparent 48%),radial-gradient(800px 400px at 10% 110%,rgba(174,203,234,.06),transparent 60%)}
 header{display:flex;align-items:baseline;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line)}
 header h1{font-size:15px;letter-spacing:.28em;font-weight:600;color:var(--gold)}
 header .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
@@ -23,22 +23,22 @@ header time{margin-left:auto;color:var(--dim);font-size:11px;letter-spacing:.12e
 .tk b{font-weight:600}.tk .up{color:var(--green)}.tk .dn{color:var(--red)}.tk span{color:var(--dim)}
 main{display:grid;grid-template-columns:1fr;gap:14px;padding:16px 20px;max-width:1280px;margin:0 auto}
 @media(min-width:900px){main{grid-template-columns:1.7fr 1fr}}
-.panel{background:linear-gradient(180deg,rgba(22,27,51,.85),rgba(11,14,29,.4));border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.panel{background:linear-gradient(180deg,rgba(17,16,24,.85),rgba(6,6,12,.4));border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .panel h2{font-size:11px;letter-spacing:.3em;color:var(--teal);padding:10px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
 .panel h2 em{font-style:normal;color:var(--dim);letter-spacing:.08em}
-.wire a{display:flex;gap:12px;align-items:baseline;padding:9px 14px;border-bottom:1px solid rgba(42,49,96,.45);text-decoration:none;color:var(--ink);transition:background .15s}
-.wire a:hover{background:rgba(56,200,240,.10)}
+.wire a{display:flex;gap:12px;align-items:baseline;padding:9px 14px;border-bottom:1px solid rgba(40,32,52,.45);text-decoration:none;color:var(--ink);transition:background .15s}
+.wire a:hover{background:rgba(174,203,234,.10)}
 .wire a:last-child{border-bottom:0}
 .src{flex:0 0 76px;font-size:10px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase}
 .wire .t{flex:1;min-width:0;font-size:13.5px;line-height:1.35;overflow-wrap:break-word}
 .ago{flex:0 0 52px;text-align:right;font-size:10.5px;color:var(--dim)}
 table{width:100%;border-collapse:collapse}
-td,th{padding:7px 14px;font-size:12.5px;text-align:right;border-bottom:1px solid rgba(42,49,96,.45)}
+td,th{padding:7px 14px;font-size:12.5px;text-align:right;border-bottom:1px solid rgba(40,32,52,.45)}
 td:first-child,th:first-child{text-align:left;color:var(--dim);letter-spacing:.08em;font-size:11px}
 tr:last-child td{border-bottom:0}
 .num{font-variant-numeric:tabular-nums}
-.tape a{display:block;padding:7px 14px;border-bottom:1px solid rgba(42,49,96,.45);text-decoration:none;color:var(--ink);font-size:12px;line-height:1.35}
-.tape a:hover{background:rgba(56,200,240,.10)}
+.tape a{display:block;padding:7px 14px;border-bottom:1px solid rgba(40,32,52,.45);text-decoration:none;color:var(--ink);font-size:12px;line-height:1.35}
+.tape a:hover{background:rgba(174,203,234,.10)}
 .tape a:last-child{border-bottom:0}
 .tape .d{color:var(--dim);font-size:10.5px}
 footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;border-top:1px solid var(--line);max-width:1280px;margin:0 auto}
@@ -126,29 +126,29 @@ size();addEventListener('resize',size);
 let rot=0;
 function draw(){rot+=0.0022;ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2;
 const g=ctx.createRadialGradient(cx-R*0.3,cy-R*0.3,R*0.1,cx,cy,R);
-g.addColorStop(0,'#1a2145');g.addColorStop(1,'#070a18');
+g.addColorStop(0,'#14132b');g.addColorStop(1,'#06060c');
 ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.fillStyle=g;ctx.fill();
-ctx.strokeStyle='rgba(232,163,61,.35)';ctx.lineWidth=2;ctx.stroke();
+ctx.strokeStyle='rgba(213,182,110,.35)';ctx.lineWidth=2;ctx.stroke();
 const cosR=Math.cos(rot),sinR=Math.sin(rot);
 for(const p of LAND){const la=p[0]*Math.PI/1800,lo=p[1]*Math.PI/1800+rot;
 const x=Math.cos(la)*Math.sin(lo),y=Math.sin(la),z=Math.cos(la)*Math.cos(lo);
 if(z<0)continue;const px=cx+x*R,py=cy-y*R;const a=0.25+0.75*z;
-ctx.fillStyle='rgba(232,163,61,'+a.toFixed(2)+')';
+ctx.fillStyle='rgba(213,182,110,'+a.toFixed(2)+')';
 ctx.fillRect(px,py,2.6,2.6);}
 for(const e of GD){const la=e.lat*Math.PI/180,lo=e.lon*Math.PI/180+rot;
 const x=Math.cos(la)*Math.sin(lo),y=Math.sin(la),z=Math.cos(la)*Math.cos(lo);
 if(z<0.02)continue;const px=cx+x*R,py=cy-y*R;
 const sz=Math.min(4.5,1.6+Math.sqrt(e.n)*0.3);
 const a=0.4+0.6*z;
-ctx.beginPath();ctx.arc(px,py,sz,0,7);ctx.fillStyle='rgba(56,200,240,'+(a*0.8).toFixed(2)+')';ctx.fill();}
+ctx.beginPath();ctx.arc(px,py,sz,0,7);ctx.fillStyle='rgba(174,203,234,'+(a*0.8).toFixed(2)+')';ctx.fill();}
 for(const e of CF){const la=e.lat*Math.PI/180,lo=e.lon*Math.PI/180+rot;
 const x=Math.cos(la)*Math.sin(lo),y=Math.sin(la),z=Math.cos(la)*Math.cos(lo);
 if(z<0.02)continue;const px=cx+x*R,py=cy-y*R;
 const sz=Math.min(9,2.6+Math.sqrt(e.d)*0.28);
 const a=0.45+0.55*z;
-ctx.beginPath();ctx.arc(px,py,sz,0,7);ctx.fillStyle='rgba(240,86,138,'+(a*0.35).toFixed(2)+')';ctx.fill();
-ctx.beginPath();ctx.arc(px,py,sz*0.45,0,7);ctx.fillStyle='rgba(240,86,138,'+a.toFixed(2)+')';ctx.fill();}
-ctx.beginPath();ctx.arc(cx,cy,R+6,0,7);ctx.strokeStyle='rgba(56,200,240,.20)';ctx.lineWidth=5;ctx.stroke();
+ctx.beginPath();ctx.arc(px,py,sz,0,7);ctx.fillStyle='rgba(255,107,107,'+(a*0.35).toFixed(2)+')';ctx.fill();
+ctx.beginPath();ctx.arc(px,py,sz*0.45,0,7);ctx.fillStyle='rgba(255,107,107,'+a.toFixed(2)+')';ctx.fill();}
+ctx.beginPath();ctx.arc(cx,cy,R+6,0,7);ctx.strokeStyle='rgba(174,203,234,.20)';ctx.lineWidth=5;ctx.stroke();
 requestAnimationFrame(draw);}
 draw();
 })();
@@ -157,15 +157,15 @@ draw();
 <script src="lwc.js"></script>
 <script>
 const S2=JSON.parse(document.getElementById('snap').textContent);
-const opts={layout:{background:{color:'transparent'},textColor:'#74839B',attributionLogo:false,fontFamily:'Vazirmatn'},grid:{vertLines:{visible:false},horzLines:{color:'rgba(42,49,96,.35)'}},timeScale:{visible:false},rightPriceScale:{visible:false},crosshair:{visible:false},handleScroll:false,handleScale:false};
+const opts={layout:{background:{color:'transparent'},textColor:'#9a92b8',attributionLogo:false,fontFamily:'Vazirmatn'},grid:{vertLines:{visible:false},horzLines:{color:'rgba(40,32,52,.35)'}},timeScale:{visible:false},rightPriceScale:{visible:false},crosshair:{visible:false},handleScroll:false,handleScale:false};
 function area(id,dates,data,color){
  const el=document.getElementById(id);
  const ch=LightweightCharts.createChart(el,{...opts,width:el.clientWidth,height:120});
  const s=ch.addSeries(LightweightCharts.AreaSeries,{lineColor:color,topColor:color.replace(')',',.35)').replace('rgb','rgba'),bottomColor:'rgba(0,0,0,0)',lineWidth:2,priceLineVisible:false});
  s.setData(dates.map((d,i)=>({time:d,value:data[i]})));
 }
-area('c-btc',S2.btc7dates,S2.btc7,'rgb(232,163,61)');
-area('c-fx',S2.fxhist.dates,S2.fxhist.usd,'rgb(56,200,240)');
+area('c-btc',S2.btc7dates,S2.btc7,'rgb(213,182,110)');
+area('c-fx',S2.fxhist.dates,S2.fxhist.usd,'rgb(174,203,234)');
 </script>
   <footer class="sitefoot">
     <div class="jps-logowrap">
