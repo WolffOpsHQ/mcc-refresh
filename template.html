@@ -22,16 +22,16 @@
 html,body{overflow-x:hidden}body{background:var(--bg);color:var(--ink);font-family:'Vazirmatn',system-ui,sans-serif;font-size:14px;min-height:100vh;
 background-image:radial-gradient(ellipse at 62% 2%,#14132b 0,transparent 48%),radial-gradient(800px 400px at 10% 110%,rgba(174,203,234,.06),transparent 60%)}
 /* header: 8px spacing grid; logo sizes step by 4:3 (45 / 60 / 80); two clusters, left = identity, right = actions */
-header{--u:8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*1.5);padding:calc(var(--u)*2) 20px calc(var(--u)*2);border-bottom:1px solid var(--line)}
+header{--u:8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*3);padding:calc(var(--u)*3) 20px calc(var(--u)*4);border-bottom:1px solid var(--line)}
 header .hlogo{width:min(100%,360px);height:auto;aspect-ratio:1/1;display:block;border-radius:50%}
 header h1{font-size:clamp(15px,4.6vw,26px);letter-spacing:.2em;font-weight:600;color:var(--gold);line-height:1.2}
-header .stat{display:flex;align-items:center;justify-content:center;gap:var(--u);min-width:0}
+header .stat{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*2);min-width:0}
 header .dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.35}}
-header time{color:var(--dim);font-size:11px;letter-spacing:.12em;line-height:1.35}
+header time{color:var(--dim);font-size:13.33px;letter-spacing:.10em;line-height:1.35}
 header time span{display:inline;white-space:nowrap}header time span+span:before{content:" \00b7\00a0"}
 .hdrmail{align-self:stretch;max-width:420px;width:100%;margin:0 auto}.hdrmail button{flex:1}
-@media(min-width:640px){header time{font-size:13px}}
+
 /* collapsible sections: 44px header target, chevron, 0fr/1fr height animation */
 .panel h2{min-height:44px;align-items:center;gap:var(--u,8px);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
 .panel h2:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
@@ -77,7 +77,7 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
 .mc a:hover,.mc a:active{background:linear-gradient(165deg,rgba(255,255,255,.34),rgba(228,239,243,.18) 55%,rgba(255,255,255,.10))}
 .stack{display:flex;flex-direction:column;gap:14px}
   /* ---- footer: JPS badge with floor shadow + contact button ---- */
-  .sitefoot { margin-top: 26px; max-width:1280px; margin-left:auto; margin-right:auto; padding:0 20px }
+  .sitefoot { border-top:0; margin-top: 26px; max-width:1280px; margin-left:auto; margin-right:auto; padding:0 20px }
   .jps-logowrap { position: relative; width: 170px; margin: 30px auto 120px; }
   .jps-logo-bottom { display: block; width: 170px; height: auto; margin: 0; position: relative; z-index: 1; }
   .jps-logo-shadow {
@@ -102,7 +102,7 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
   .hdrmail button:hover,.hdrmail button:focus-visible,.hdrmail button:active{background:linear-gradient(165deg,rgba(255,255,255,.34),rgba(228,239,243,.18) 55%,rgba(255,255,255,.10));
     box-shadow:0 2px 6px rgba(0,0,0,.30),inset 0 1px 1px rgba(255,255,255,.55),inset 0 0 0 1px rgba(228,255,241,.45);outline:0}
   .legend { display: flex; gap: 16px; font-size: .72rem; color: var(--ink-dim); margin-bottom: 10px; flex-wrap: wrap; }
-@media(max-width:639px){header time{font-size:10.5px;letter-spacing:.06em}.hdrmail button{padding:0 10px;letter-spacing:.06em}}
+@media(max-width:639px){.hdrmail button{padding:0 10px;letter-spacing:.06em}}
 #g3card{position:absolute;left:12px;right:12px;bottom:12px;padding:12px 14px;border-radius:12px;background:rgba(17,16,24,.94);border:1px solid #282034;color:#eeeafa;font-size:14px;line-height:1.45;backdrop-filter:blur(8px);z-index:5}#g3card b{font-size:11px;letter-spacing:.16em}#g3card .gt{font-size:17px;color:#d5b66e;margin:2px 0}#g3card .gs{font-size:12px;color:#9a92b8;margin-top:4px}#g3card button{position:absolute;top:4px;right:4px;min-width:44px;min-height:44px;background:transparent;border:0;color:#aecbea;font:600 12px inherit;font-family:inherit;cursor:pointer}
 </style>
 </head>
@@ -246,7 +246,7 @@ Promise.all([load("/globe.gl.min.js"),load("/topojson-client.min.js"),jget("/cou
 var topo=a[2],land=topojson.feature(topo,topo.objects.countries).features;
 var G=Globe()(el).width(el.clientWidth||(window.innerWidth-40)).height(340).backgroundColor("rgba(0,0,0,0)")
 .showAtmosphere(true).atmosphereColor("#aecbea").atmosphereAltitude(0.1)
-.hexPolygonsData(land).hexPolygonResolution(4).hexPolygonMargin(0.4).polygonsData(land).polygonCapColor(function(){return "rgba(0,0,0,0)"}).polygonSideColor(function(){return "rgba(0,0,0,0)"}).polygonStrokeColor(function(){return "rgba(213,182,110,0.45)"}).polygonAltitude(0.002).hexPolygonColor(function(){return "rgba(213,182,110,0.85)"})
+.hexPolygonsData(land).hexPolygonResolution(4).hexPolygonMargin(0.4).hexPolygonColor(function(){return "rgba(213,182,110,0.85)"})
 .pointsData(S2.gdelt.map(function(d){return{lat:d.lat,lng:d.lon,r:0.16,a:0.004,c:"#aecbea"}}).concat(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon,r:0.38,a:0.02,c:"#ff6b6b",l:d.c+" "+d.date}})))
 .pointLat("lat").pointLng("lng").pointRadius("r").pointAltitude("a").pointColor("c")
 .ringsData(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon}})).ringColor(function(){return function(t){return "rgba(255,107,107,"+(1-t)+")"}}).ringMaxRadius(3.2).ringPropagationSpeed(1.6).ringRepeatPeriod(1800);
