@@ -22,24 +22,16 @@
 html,body{overflow-x:hidden}body{background:var(--bg);color:var(--ink);font-family:'Vazirmatn',system-ui,sans-serif;font-size:14px;min-height:100vh;
 background-image:radial-gradient(ellipse at 62% 2%,#14132b 0,transparent 48%),radial-gradient(800px 400px at 10% 110%,rgba(174,203,234,.06),transparent 60%)}
 /* header: 8px spacing grid; logo sizes step by 4:3 (45 / 60 / 80); two clusters, left = identity, right = actions */
-header{--logo:60px;--u:8px;display:grid;grid-template-columns:var(--logo) 1fr;grid-template-areas:"logo title" "logo date" "nav nav";align-items:center;column-gap:calc(var(--u)*1.5);row-gap:var(--u);padding:calc(var(--u)*2) 20px;border-bottom:1px solid var(--line)}
-header .hlogo{grid-area:logo;width:var(--logo);height:var(--logo);display:block;border-radius:50%}
-header h1{grid-area:title;font-size:15px;letter-spacing:.2em;font-weight:600;color:var(--gold);line-height:1.2}
-header .stat{grid-area:date;display:flex;align-items:center;gap:var(--u);min-width:0}
+header{--u:8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:calc(var(--u)*1.5);padding:calc(var(--u)*2) 20px calc(var(--u)*2);border-bottom:1px solid var(--line)}
+header .hlogo{width:min(100%,360px);height:auto;aspect-ratio:1/1;display:block;border-radius:50%}
+header h1{font-size:clamp(15px,4.6vw,26px);letter-spacing:.2em;font-weight:600;color:var(--gold);line-height:1.2}
+header .stat{display:flex;align-items:center;justify-content:center;gap:var(--u);min-width:0}
 header .dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.35}}
 header time{color:var(--dim);font-size:11px;letter-spacing:.12em;line-height:1.35}
 header time span{display:inline;white-space:nowrap}header time span+span:before{content:" \00b7\00a0"}
-.hdrmail{grid-area:nav;justify-self:stretch}.hdrmail button{flex:1}
-@media(min-width:640px){
-  header{--logo:80px;grid-template-columns:var(--logo) 1fr auto;grid-template-areas:"logo title nav" "logo date nav";column-gap:calc(var(--u)*2);row-gap:4px}
-  header h1{font-size:20px;letter-spacing:.26em}.hdrmail{justify-self:end}.hdrmail button{flex:none}
-  header time{max-width:none}
-}
-@media(min-width:900px) and (min-height:561px){
-  header{--logo:107px;padding-top:calc(var(--u)*2.5);padding-bottom:calc(var(--u)*2.5)}
-  header h1{font-size:26px}header time{font-size:13px}
-}
+.hdrmail{align-self:stretch;max-width:420px;width:100%;margin:0 auto}.hdrmail button{flex:1}
+@media(min-width:640px){header time{font-size:13px}}
 /* collapsible sections: 44px header target, chevron, 0fr/1fr height animation */
 .panel h2{min-height:44px;align-items:center;gap:var(--u,8px);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
 .panel h2:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
@@ -60,7 +52,7 @@ header time span{display:inline;white-space:nowrap}header time span+span:before{
 .tk{display:inline-block;margin:0 22px;font-size:12px;letter-spacing:.06em}
 .tk b{font-weight:600}.tk .up{color:var(--green)}.tk .dn{color:var(--red)}.tk span{color:var(--dim)}
 main{display:grid;grid-template-columns:1fr;gap:14px;padding:16px 20px;max-width:1280px;margin:0 auto}
-@media(min-width:900px){main{grid-template-columns:1.7fr 1fr}main>.stack:first-child{order:2}}
+main{max-width:960px}
 .panel{background:linear-gradient(180deg,rgba(17,16,24,.85),rgba(6,6,12,.4));border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .panel h2{font-size:11px;letter-spacing:.3em;color:var(--teal);padding:10px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
 .panel h2 em{font-style:normal;color:var(--dim);letter-spacing:.08em}
@@ -80,20 +72,23 @@ tr:last-child td{border-bottom:0}
 .tape a:last-child{border-bottom:0}
 .tape .d{color:var(--dim);font-size:10.5px}
 footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;border-top:1px solid var(--line);max-width:1280px;margin:0 auto}
+.mc{padding:16px 14px;display:flex;justify-content:center}
+.mc a{display:block;width:100%;max-width:420px;text-align:center;text-decoration:none;color:#e4fff1;font:600 12px/1 inherit;font-family:inherit;letter-spacing:.14em;text-transform:uppercase;padding:16px 14px;border-radius:999px;border:1px solid rgba(228,255,241,.28);background:linear-gradient(160deg,rgba(228,255,241,.10),rgba(174,203,234,.06) 45%,rgba(117,77,255,.10)),rgba(17,16,24,.55);box-shadow:0 6px 18px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.10)}
+.mc a:hover,.mc a:active{background:linear-gradient(165deg,rgba(255,255,255,.34),rgba(228,239,243,.18) 55%,rgba(255,255,255,.10))}
 .stack{display:flex;flex-direction:column;gap:14px}
   /* ---- footer: JPS badge with floor shadow + contact button ---- */
   .sitefoot { margin-top: 26px; max-width:1280px; margin-left:auto; margin-right:auto; padding:0 20px }
-  .jps-logowrap { position: relative; width: 170px; margin: 30px auto 80px; }
+  .jps-logowrap { position: relative; width: 170px; margin: 30px auto 120px; }
   .jps-logo-bottom { display: block; width: 170px; height: auto; margin: 0; position: relative; z-index: 1; }
   .jps-logo-shadow {
-    position: absolute; top: calc(100% - 18px); left: 0; width: 100%;
+    position: absolute; top: calc(100% + 14px); left: 0; width: 100%;
     transform-origin: top center;
-    transform: perspective(300px) rotateX(56deg);
+    transform: perspective(300px) rotateX(62deg);
     pointer-events: none;
-    filter: blur(2px) saturate(.9);
-    opacity: .5;
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.95), transparent 82%);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,.95), transparent 82%);
+    filter: blur(1.5px) saturate(1);
+    opacity: .9;
+    -webkit-mask-image: linear-gradient(to bottom, #000, transparent 92%);
+    mask-image: linear-gradient(to bottom, #000, transparent 92%);
   }
   .jps-logo-shadow img { display: block; width: 100%; height: auto; }
   /* header mail pill: frosted glass like the shared transport pill */
@@ -112,25 +107,24 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
 </style>
 </head>
 <body>
-<header><img class="hlogo" src="/mcc-logo-144.png" alt="Mission Command Centre" width="80" height="80"><h1>MISSION COMMAND CENTRE</h1><div class="stat"><div class="dot"></div><time id="stamp"></time></div><nav class="hdrmail" aria-label="Open mail app"><button type="button" data-mail="native" title="Default mail app">Mail</button><button type="button" data-mail="proton" title="Proton Mail">Proton</button><button type="button" data-mail="gmail" title="Gmail">Gmail</button></nav></header>
+<header><img class="hlogo" src="/mcc-logo-1024.png" alt="Mission Command Centre" width="360" height="360"><h1>MISSION COMMAND CENTRE</h1><div class="stat"><div class="dot"></div><time id="stamp"></time></div><nav class="hdrmail" aria-label="Open mail app"><button type="button" data-mail="native" title="Default mail app">Mail</button><button type="button" data-mail="proton" title="Proton Mail">Proton</button><button type="button" data-mail="gmail" title="Gmail">Gmail</button></nav></header>
 <div class="ticker"><div class="track" id="ticker"></div></div>
 <main>
   <div class="stack">
     <div class="panel"><h2>THEATRE GLOBE <em id="g3note">LOADING</em></h2><div id="g3d" style="height:340px;position:relative;touch-action:pan-y"></div></div>
-    <div class="panel"><h2>THEATRE DOT MAP <em><span id="ccount"></span> UCDP · <span id="gcount"></span> GDELT 24H</em></h2><canvas id="globe" style="width:100%;display:block"></canvas></div>
-    <div class="panel"><h2>BTC / USD <em>7D</em></h2><div id="c-btc" style="height:120px"></div></div>
+    <div class="panel"><h2>EUR / CAD <em>30D</em></h2><div id="c-cad" style="height:120px"></div></div>
     <div class="panel"><h2>EUR / USD <em>30D</em></h2><div id="c-fx" style="height:120px"></div></div>
+    <div class="panel"><h2>BTC / USD <em>7D</em></h2><div id="c-btc" style="height:120px"></div></div>
     <div class="panel"><h2>FX <em id="fxdate"></em></h2><table id="fx"></table></div>
     <div class="panel"><h2>CRYPTO <em>24H</em></h2><table id="crypto"></table></div>
-    <div class="panel tape"><h2>US INSIDER TAPE <em>SEC FORM 4</em></h2><div id="edgar"></div></div>
-  </div>
-  <div class="stack">
-  <div class="panel wire"><h2>GEOPOLITICAL WIRE <em>LIVE FEED</em></h2><div id="news"></div></div>
-  <div class="panel wire"><h2>INDEPENDENT DESK <em>NON-MAINSTREAM</em></h2><div id="ind"></div></div>
-  <div class="panel wire"><h2>KEY VOICES <em>BLUESKY · RESEARCH · PODCAST</em></h2><div id="voices"></div></div>
+    <div class="panel tape"><h2>US INSIDER INTELL <em>SEC FORM 4</em></h2><div id="edgar"></div></div>
+    <div class="panel wire"><h2>GEOPOLITICAL INTELL <em>LIVE FEED</em></h2><div id="news"></div></div>
+    <div class="panel wire"><h2>INTELL DESK <em>NON-MAINSTREAM</em></h2><div id="ind"></div></div>
+    <div class="panel wire"><h2>GENERAL INTELL <em>BLUESKY · RESEARCH · PODCAST</em></h2><div id="voices"></div></div>
+    <div class="panel"><h2>MEDIA CENTRE <em>OPENS IN NEW TAB</em></h2><div class="mc"><a href="https://ground.news" target="_blank" rel="noopener">Media Centre</a></div></div>
+    <div class="panel"><h2>THEATRE DOT MAP <em><span id="ccount"></span> UCDP · <span id="gcount"></span> GDELT 24H</em></h2><canvas id="globe" style="width:100%;display:block"></canvas></div>
   </div>
 </main>
-<footer>Also useful: <a href="https://ground.news" target="_blank" rel="noopener" style="color:inherit">Ground News</a> (news bias comparison). Sources: ECB / Frankfurter · CoinGecko · BBC World · Al Jazeera · DW · SEC EDGAR. Headlines link to the original publisher. Snapshot refreshed on a timer; no history stored.</footer>
 <script id="snap" type="application/json">__SNAPSHOT__</script>
 <script>
 const S=JSON.parse(document.getElementById('snap').textContent);
@@ -198,6 +192,7 @@ function area(id,dates,data,color){
  s.setData(dates.map((d,i)=>({time:d,value:data[i]})));ch.timeScale().fitContent();new ResizeObserver(()=>ch.timeScale().fitContent()).observe(el);
 }
 area('c-btc',S2.btc7dates,S2.btc7,'rgb(213,182,110)');
+area('c-cad',S2.fxhist.dates,S2.fxhist.cad,'rgb(63,214,143)');
 area('c-fx',S2.fxhist.dates,S2.fxhist.usd,'rgb(174,203,234)');
 </script>
   <footer class="sitefoot">
@@ -222,7 +217,7 @@ document.querySelectorAll("[data-mail]").forEach(function(b){b.addEventListener(
 })();</script>
 <script>(function(){
 var K="mcc.panel.",ch='<svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-var DEF=["theatre-globe","theatre-dot-map","btc-usd","eur-usd","fx","crypto"];
+var DEF=["theatre-globe","theatre-dot-map","eur-cad","eur-usd","btc-usd","fx","crypto"];
 function get(k){try{return localStorage.getItem(K+k)}catch(e){return null}}
 function put(k,v){try{localStorage.setItem(K+k,v)}catch(e){}}
 document.body.classList.add("noanim");
@@ -243,26 +238,27 @@ h.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.prev
 requestAnimationFrame(function(){requestAnimationFrame(function(){document.body.classList.remove("noanim")})});
 })();</script>
 <script>(function(){
-function load(src){return new Promise(function(r,j){var e=document.createElement("script");e.src=src;e.onload=r;e.onerror=j;document.head.appendChild(e)})}
+function load(src,n){n=n||0;return new Promise(function(r,j){var e=document.createElement("script");e.src=src;e.onload=r;e.onerror=function(){e.remove();if(n<2)setTimeout(function(){load(src,n+1).then(r,j)},800);else j()};document.head.appendChild(e)})}
+function jget(u,n){n=n||0;return fetch(u,{cache:"no-cache"}).then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(e){if(n<2)return new Promise(function(r){setTimeout(r,800)}).then(function(){return jget(u,n+1)});throw e})}
 function go(){
 var el=document.getElementById("g3d"),note=document.getElementById("g3note");
-Promise.all([load("/globe.gl.min.js"),load("/topojson-client.min.js"),fetch("/countries-110m.json").then(function(r){return r.json()})]).then(function(a){
+Promise.all([load("/globe.gl.min.js"),load("/topojson-client.min.js"),jget("/countries-110m.json")]).then(function(a){
 var topo=a[2],land=topojson.feature(topo,topo.objects.countries).features;
-var G=Globe()(el).width(el.clientWidth).height(340).backgroundColor("rgba(0,0,0,0)")
+var G=Globe()(el).width(el.clientWidth||(window.innerWidth-40)).height(340).backgroundColor("rgba(0,0,0,0)")
 .showAtmosphere(true).atmosphereColor("#aecbea").atmosphereAltitude(0.1)
-.hexPolygonsData(land).hexPolygonResolution(3).hexPolygonMargin(0.42).hexPolygonColor(function(){return "rgba(213,182,110,0.85)"})
+.hexPolygonsData(land).hexPolygonResolution(4).hexPolygonMargin(0.4).polygonsData(land).polygonCapColor(function(){return "rgba(0,0,0,0)"}).polygonSideColor(function(){return "rgba(0,0,0,0)"}).polygonStrokeColor(function(){return "rgba(213,182,110,0.45)"}).polygonAltitude(0.002).hexPolygonColor(function(){return "rgba(213,182,110,0.85)"})
 .pointsData(S2.gdelt.map(function(d){return{lat:d.lat,lng:d.lon,r:0.16,a:0.004,c:"#aecbea"}}).concat(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon,r:0.38,a:0.02,c:"#ff6b6b",l:d.c+" "+d.date}})))
 .pointLat("lat").pointLng("lng").pointRadius("r").pointAltitude("a").pointColor("c")
 .ringsData(S2.conflicts.map(function(d){return{lat:d.lat,lng:d.lon}})).ringColor(function(){return function(t){return "rgba(255,107,107,"+(1-t)+")"}}).ringMaxRadius(3.2).ringPropagationSpeed(1.6).ringRepeatPeriod(1800);
 var m=G.globeMaterial();m.color.set("#0a0a16");m.emissive.set("#14132b");m.emissiveIntensity=0.7;
 var c=G.controls();c.autoRotate=true;c.autoRotateSpeed=0.5;c.enableZoom=false;G.renderer().domElement.style.touchAction="pan-y";
 G.pointOfView({lat:25,lng:20,altitude:2.3});
-function rs(){if(el.clientWidth)G.width(el.clientWidth)}new ResizeObserver(rs).observe(el);addEventListener("resize",rs);[100,400,1200].forEach(function(t){setTimeout(rs,t)});
+function rs(){if(el.clientWidth)G.width(el.clientWidth)}[2500,5000].forEach(function(t){setTimeout(rs,t)});new ResizeObserver(rs).observe(el);addEventListener("resize",rs);[100,400,1200].forEach(function(t){setTimeout(rs,t)});
 var M=S2.conflicts.map(function(d){return{t:"c",lat:d.lat,lng:d.lon,d:d}}).concat(S2.gdelt.map(function(d){return{t:"g",lat:d.lat,lng:d.lon,d:d}}));
 var card=document.createElement("div");card.id="g3card";card.setAttribute("role","status");card.style.display="none";el.appendChild(card);
 function esc(x){return String(x).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
 function hide(){card.style.display="none";c.autoRotate=true}
-function show(m){var h;if(m.t==="c"){var d=m.d;h='<b style="color:#ff6b6b">CONFLICT EVENT</b><div class="gt">'+esc(d.c)+'</div><div>Date: '+esc(d.date)+'</div><div>Reported deaths: '+esc(d.d)+'</div><div class="gs">Source: UCDP georeferenced event data. Location '+m.lat.toFixed(2)+', '+m.lng.toFixed(2)+'</div>'}else{var g=m.d;h='<b style="color:#aecbea">NEWS ACTIVITY (GDELT)</b><div class="gt">Location '+m.lat.toFixed(2)+', '+m.lng.toFixed(2)+'</div><div>'+esc(g.n)+' mentions in the last 24h</div><div>Average tone: '+esc(g.g)+' (negative means hostile or violent coverage)</div><div class="gs">Source: GDELT 2.0 event feed</div>'}
+function show(m){var h;if(m.t==="c"){var d=m.d;h='<b style="color:#ff6b6b">CONFLICT EVENT</b><div class="gt"><a href="'+esc("https://www.google.com/search?tbm=nws&q="+encodeURIComponent(d.c+" conflict "+d.date))+'" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:3px">'+esc(d.c)+'</a></div><div>Date: '+esc(d.date)+'</div><div>Reported deaths: '+esc(d.d)+'</div><div class="gs">Source: UCDP georeferenced event data. Location '+m.lat.toFixed(2)+', '+m.lng.toFixed(2)+'</div>'}else{var g=m.d;h='<b style="color:#aecbea">NEWS ACTIVITY (GDELT)</b><div class="gt">Location '+m.lat.toFixed(2)+', '+m.lng.toFixed(2)+'</div><div>'+esc(g.n)+' mentions in the last 24h</div><div>Average tone: '+esc(g.g)+' (negative means hostile or violent coverage)</div><div class="gs">Source: GDELT 2.0 event feed</div>'}
 card.innerHTML=h+'<button type="button" aria-label="Close">Close</button>';card.style.display="block";c.autoRotate=false;card.querySelector("button").onclick=function(e){e.stopPropagation();hide()}}
 var down=null;
 el.addEventListener("pointerdown",function(e){if(card.contains(e.target))return;down={x:e.clientX,y:e.clientY,t:Date.now()}});
