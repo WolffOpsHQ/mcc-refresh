@@ -107,7 +107,7 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
 </style>
 </head>
 <body>
-<header><img class="hlogo" src="/mcc-logo-1024.png" alt="Mission Command Centre" width="360" height="360"><h1>MISSION COMMAND CENTRE</h1><div class="stat"><div class="dot"></div><time id="stamp"></time></div><nav class="hdrmail" aria-label="Open mail app"><button type="button" data-mail="native" title="Default mail app">Mail</button><button type="button" data-mail="proton" title="Proton Mail">Proton</button><button type="button" data-mail="gmail" title="Gmail">Gmail</button></nav></header>
+<header><img class="hlogo" src="/mcc-logo-1024.png" alt="Mission Command Centre" width="360" height="360"><h1>MISSION COMMAND CENTRE</h1><div class="stat"><div class="dot"></div><time id="stamp"></time></div><nav class="hdrmail" aria-label="Open mail app"><button type="button" data-mail="native" title="Default mail app">Mail</button><button type="button" data-mail="proton" title="Proton Mail">Proton</button><button type="button" data-mail="gmail" title="Gmail">Gmail</button><button type="button" data-mail="calendar" title="Calendar">Calendar</button></nav></header>
 <div class="ticker"><div class="track" id="ticker"></div></div>
 <main>
   <div class="stack">
@@ -212,12 +212,13 @@ area('c-fx',S2.fxhist.dates,S2.fxhist.usd,'rgb(174,203,234)');
   </footer>
 <script>(function(){
 var ua=navigator.userAgent||"",ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),and=/Android/i.test(ua);
-var W={proton:"https://mail.proton.me/",gmail:"https://mail.google.com/"};
+var W={calendar:"https://calendar.google.com/calendar/r?authuser=wolffopshq%40gmail.com",proton:"https://mail.proton.me/",gmail:"https://mail.google.com/"};
 var A={proton:"ch.protonmail.android",gmail:"com.google.android.gm"};
 var I={proton:"protonmail://",gmail:"googlegmail://"};
 function web(k){window.open(W[k],"_blank","noopener")||(location.href=W[k])}
 function go(k){
 if(k==="native"){location.href="mailto:";return}
+if(k==="calendar"){web("calendar");return}
 if(ios){var t=setTimeout(function(){if(!document.hidden)location.href=W[k]},1500);
 var c=function(){clearTimeout(t)};document.addEventListener("visibilitychange",c,{once:true});window.addEventListener("pagehide",c,{once:true});location.href=I[k];return}
 if(and){location.href="intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;package="+A[k]+";S.browser_fallback_url="+encodeURIComponent(W[k])+";end";return}
