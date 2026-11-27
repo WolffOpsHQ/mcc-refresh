@@ -77,9 +77,9 @@ footer{padding:14px 20px;color:var(--dim);font-size:10.5px;letter-spacing:.06em;
 .mc a svg{width:70px;height:81px;color:rgba(var(--c),.62);filter:drop-shadow(0 0 5px rgba(var(--c),.55));transition:color .25s,filter .25s}
 .mc a::after{content:"";position:absolute;left:10%;right:10%;top:10%;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,rgb(var(--c)),transparent);box-shadow:0 0 12px rgb(var(--c));opacity:0}
 .mc a:hover,.mc a:focus-visible{outline:0;box-shadow:0 6px 18px rgba(0,0,0,.4),0 0 28px rgba(var(--c),.3),inset 0 0 18px rgba(var(--c),.18)}
-.mc a:active{--c:70,255,150}.mc a:active svg{color:rgba(var(--c),.95);filter:drop-shadow(0 0 8px rgba(var(--c),.9))}
-.mc a:active::after{opacity:1;animation:scan .55s ease-in-out infinite alternate}
-@keyframes scan{to{top:86%}}
+.mc a.scan{--c:70,255,150;pointer-events:none}.mc a.scan svg{color:rgba(var(--c),.95);filter:drop-shadow(0 0 8px rgba(var(--c),.9))}
+.mc a.scan::after{opacity:1;animation:scan 1.2s ease-in-out 1 both}
+@keyframes scan{0%{top:10%}50%{top:86%}100%{top:10%}}
 .stack{display:flex;flex-direction:column;gap:14px}
   /* ---- footer: JPS badge with floor shadow + contact button ---- */
   .sitefoot { border-top:0; margin-top: 26px; max-width:1280px; margin-left:auto; margin-right:auto; padding:0 20px }
@@ -289,5 +289,5 @@ note.textContent=S2.conflicts.length+" CONFLICTS · DRAG TO ROTATE";
 }).catch(function(){note.textContent="UNAVAILABLE"})}
 go()
 })();</script>
-</body>
+<script>(function(){document.querySelectorAll(".mc a").forEach(function(a){a.addEventListener("click",function(e){if(e.metaKey||e.ctrlKey||e.shiftKey||e.button>0)return;e.preventDefault();if(a.classList.contains("scan"))return;var u=a.href,w=null;try{w=window.open("","_blank");if(w)w.opener=null}catch(x){}a.classList.add("scan");setTimeout(function(){a.classList.remove("scan");if(w){w.location.href=u}else{location.href=u}},1250)})})})();</script></body>
 </html>
